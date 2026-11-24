@@ -1,0 +1,7 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "Run MATLAB analytical fragility (matlab/octave)", "type": "shell", "command": "bash scripts/run_matlab.sh", "problemMatcher": [] },
+    { "label": "Run full Python pipeline", "type": "shell", "command": "python scripts/run_all.py", "problemMatcher": [] }
+  ]
+}

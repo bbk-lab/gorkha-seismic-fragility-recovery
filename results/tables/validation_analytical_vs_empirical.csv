@@ -1,0 +1,5 @@
+class_,state,empirical_median_g,empirical_beta,empirical_extrapolated,analytical_median_g_min,analytical_median_g_max,analytical_beta_total,ratio_analytical_to_empirical
+RC_NE|3+fl,DG>=2 / DS2,0.23,0.712,False,0.256,0.294,0.421,1.197
+RC_NE|3+fl,DG3 / DS3,0.876,0.712,False,0.501,0.597,0.394,0.627
+RC_E|3+fl,DG>=2 / DS2,0.327,0.908,False,0.348,0.413,0.422,1.163
+RC_E|3+fl,DG3 / DS3,1.21,0.908,True,0.768,0.913,0.412,0.694

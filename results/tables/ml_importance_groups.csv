@@ -1,0 +1,8 @@
+group,mean_drop
+location (geo IDs),0.2487
+foundation / floors / roof,0.0408
+superstructure material,0.02917
+age,0.011
+"geometry (floors, height, plan area)",0.0106
+"site & plan (position, configuration, slope, ownership)",0.00837
+use / occupancy,0.00747

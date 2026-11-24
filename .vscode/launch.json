@@ -1,0 +1,9 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    { "name": "Python: current file", "type": "debugpy", "request": "launch", "program": "${file}",
+      "cwd": "${workspaceFolder}", "env": { "PYTHONPATH": "${workspaceFolder}/src" }, "console": "integratedTerminal" },
+    { "name": "Python: run_all.py", "type": "debugpy", "request": "launch", "program": "${workspaceFolder}/scripts/run_all.py",
+      "cwd": "${workspaceFolder}", "env": { "PYTHONPATH": "${workspaceFolder}/src" }, "console": "integratedTerminal" }
+  ]
+}

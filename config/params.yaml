@@ -1,0 +1,103 @@
+# ---------------------------------------------------------------------------
+# Central parameter file. Items marked ASSUMPTION are NOT taken from data and
+# should be replaced by your own numbers (census, BoQ rates, ShakeMap, etc.).
+# ---------------------------------------------------------------------------
+seed: 2015
+
+fragility_table: results/tables/empirical_fragility_params.csv   # table used by steps 06-08 (switch to ..._full.csv after the upgrade)
+
+fragility:
+  # --- ground-motion anchor for the latent-intensity model (ASSUMPTION) ----
+  # The public Gorkha survey subset has anonymised region IDs and no PGA.
+  # Regional shaking is therefore inferred from the damage itself and anchored
+  # to a mean / spread of ln(PGA) over surveyed buildings.
+  # Replace with the building-weighted ShakeMap PGA once you have it
+  # (see scripts/fetch_external_data.py and docs/upgrade_to_real_pga.md).
+  im_ref_pga_g: 0.20          # building-weighted mean PGA of the surveyed area [g]
+  sigma_ln_im_regions: 0.40   # std of ln(PGA) between the 31 survey regions
+  min_cell_n: 25              # min buildings per (region, class) cell used in the fit
+  n_boot: 60                  # bootstrap replicates for confidence bands
+  rc_floor_bands: [[1, 2], [3, 4], [5, 99]]
+  min_stratum_n: 1000
+
+ml:
+  test_size: 0.2
+  perm_repeats: 3
+  perm_sample: 10000
+
+scenario:
+  # 1.2 km x 1.2 km tile of the densest part of Pokhara in the OSM extract.
+  # NOT an official ward polygon - replace with a ward GeoJSON if you have one.
+  bbox: {lat_min: 28.2160, lat_max: 28.2268, lon_min: 83.9806, lon_max: 83.9928}
+  min_footprint_m2: 15
+  max_footprint_m2: 2000
+  n_mc: 300
+  im_event_sigma: 0.25        # shared (spatially coherent) ln-PGA uncertainty per MC run
+  hh_size: 4.0                # ASSUMPTION persons / household
+  floor_area_per_hh_m2: 70    # ASSUMPTION: gross floor area per household (sets households per building)
+  # ASSUMPTION - building-class mix & floors for Pokhara core. Replace with
+  # Census 2011/2021 or a local walk-through survey. Sensitivity runs included.
+  class_mix:
+    MM_STONE: 0.10
+    MM_BRICK: 0.12
+    CM_STONE: 0.03
+    CM_BRICK: 0.25
+    RC_NE:    0.30
+    RC_E:     0.07
+    RC_MIX:   0.10
+    TIM_OTH:  0.03
+  floors_by_class:      # probability of 1,2,3,4,5 floors
+    MM_STONE: [0.35, 0.50, 0.15, 0.00, 0.00]
+    MM_BRICK: [0.25, 0.50, 0.25, 0.00, 0.00]
+    CM_STONE: [0.20, 0.50, 0.30, 0.00, 0.00]
+    CM_BRICK: [0.10, 0.45, 0.40, 0.05, 0.00]
+    RC_NE:    [0.02, 0.18, 0.40, 0.30, 0.10]
+    RC_E:     [0.00, 0.05, 0.30, 0.40, 0.25]
+    RC_MIX:   [0.05, 0.30, 0.40, 0.20, 0.05]
+    TIM_OTH:  [0.60, 0.40, 0.00, 0.00, 0.00]
+  mix_scenarios:     # alternative class mixes applied to the SAME footprints (ASSUMPTIONS)
+    peri_urban_masonry_heavy: {MM_STONE: 0.40, MM_BRICK: 0.15, CM_STONE: 0.04, CM_BRICK: 0.20, RC_NE: 0.10, RC_E: 0.02, RC_MIX: 0.05, TIM_OTH: 0.04}
+  site_factor: 1.0            # PGA amplification (ASSUMPTION, NBC 105 soil class)
+
+hazard:
+  # NBC 105:2020 zone factor Z used as 475-yr PGA anchor (ASSUMPTION - verify the
+  # Pokhara value in the NBC 105:2020 zone table before publishing).
+  Z_pokhara_g: 0.30
+  return_period_anchor: 475
+  slope_k: 2.5                # lambda(a) = (1/475)*(a/Z)^-k  (ASSUMPTION)
+  pga_grid_g: [0.05, 0.08, 0.12, 0.16, 0.20, 0.25, 0.30, 0.40, 0.50, 0.65, 0.80, 1.00]
+  scenarios_g: {frequent_100yr: 0.15, design_475yr: 0.30, maximum_2475yr: 0.58}
+
+recovery:
+  # Stochastic restoration model with a limited local workforce (ASSUMPTIONS,
+  # loosely styled after post-Gorkha reconstruction narratives - calibrate!).
+  horizon_days: 1825
+  dg1_repair_median_d: 20
+  assess_median_d: 45         # engineer inspection / tagging delay (DG2, DG3)
+  assess_sigma: 0.6
+  finance_median_d: 200       # grant / loan delay (DG2, DG3)
+  finance_sigma: 0.8
+  work_days: {DG2: 120, DG3: 330}    # crew-days of work per building
+  crews_per_100_bldg: 10.0    # local build/repair crews (masons + family labour) per 100 buildings
+  dg2_displaced_fraction: 0.5 # share of DG2 (medium damage) buildings tagged unsafe -> households displaced (ASSUMPTION)
+  outside_labor_ramp_day: 365 # day when outside labour doubles capacity
+  outside_labor_factor: 2.0
+  temp_shelter_penalty: 0.0
+
+decision:
+  horizon_years: 30
+  discount_rates: [0.05, 0.08, 0.12]
+  # Loss ratios = repair cost / replacement cost per damage grade (ASSUMPTION)
+  # Richter's grades: 1=low, 2=medium (moderate-to-substantial), 3=near-complete destruction.
+  # DG1 repair cost is not valued (no 'undamaged' class exists in the survey).
+  loss_ratio: {DG1: 0.0, DG2: 0.25, DG3: 1.00}
+  rent_npr_per_hh_month: 8000   # ASSUMPTION - cost of displacement
+  retrofit:
+    target_classes: [MM_STONE, MM_BRICK]
+    cost_fraction_of_replacement: 0.20   # ASSUMPTION (your BoQ rates go in cost table)
+    median_multiplier: 1.6               # ASSUMPTION - capacity gain of retrofit
+    beta_multiplier: 1.0
+    sensitivity_multipliers: [1.3, 1.45, 1.6, 1.8, 2.0]
+
+# Unit replacement cost [NPR per m2 of floor area] - ASSUMPTION placeholders.
+replacement_cost_npr_m2: {MM_STONE: 22000, MM_BRICK: 24000, CM_STONE: 30000, CM_BRICK: 32000, RC_NE: 40000, RC_E: 48000, RC_MIX: 36000, TIM_OTH: 18000}

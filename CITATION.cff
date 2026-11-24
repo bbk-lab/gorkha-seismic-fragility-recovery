@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Data-driven seismic fragility and recovery modeling for Nepal's building stock"
+authors:
+  - family-names: "Regmi"
+    given-names: "Bibek"
+    orcid: "https://orcid.org/0009-0004-1814-6996"
+version: "1.0.0"
+date-released: "2026-11-24"
+license: MIT
+repository-code: "https://github.com/bbk-lab/gorkha-seismic-fragility-recovery"

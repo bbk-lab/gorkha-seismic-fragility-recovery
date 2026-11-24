@@ -1,0 +1,4 @@
+model,micro_f1,macro_f1,quadratic_kappa,boosting_iterations
+structure_only,0.6175,0.527,0.3483,134.0
+structure_plus_location,0.7386,0.6812,0.5989,200.0
+majority_class_baseline,0.5689,,,

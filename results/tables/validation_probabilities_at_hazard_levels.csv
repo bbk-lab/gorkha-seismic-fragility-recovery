@@ -1,0 +1,13 @@
+class_,state,pga,P_empirical,P_analytical
+RC_NE|3+fl,DS2_DG2plus,0.15g,0.274,0.077
+RC_NE|3+fl,DS2_DG2plus,0.30g,0.646,0.585
+RC_NE|3+fl,DS2_DG2plus,0.58g,0.903,0.959
+RC_NE|3+fl,DS3_DG3,0.15g,0.007,0.001
+RC_NE|3+fl,DS3_DG3,0.30g,0.066,0.069
+RC_NE|3+fl,DS3_DG3,0.58g,0.281,0.559
+RC_E|3+fl,DS2_DG2plus,0.15g,0.195,0.014
+RC_E|3+fl,DS2_DG2plus,0.30g,0.462,0.297
+RC_E|3+fl,DS2_DG2plus,0.58g,0.736,0.839
+RC_E|3+fl,DS3_DG3,0.15g,0.011,0.0
+RC_E|3+fl,DS3_DG3,0.30g,0.062,0.008
+RC_E|3+fl,DS3_DG3,0.58g,0.209,0.192
