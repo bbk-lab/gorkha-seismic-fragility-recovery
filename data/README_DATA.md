@@ -8,6 +8,4 @@
 Download `train_values.csv` and `train_labels.csv` from the DrivenData
 "Richter's Predictor: Modeling Earthquake Damage" competition page
 (derived from the 2015 Nepal Earthquake Open Data Portal) and place them in this folder.
-Please follow the data provider's terms of use.
-
 Competition and platform reference: Bull, Slavitt & Lipstein (2016), arXiv:1606.07781.

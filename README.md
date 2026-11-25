@@ -49,8 +49,16 @@ notebooks/  results/  docs/  .vscode/
 - MATLAB RC frames agree with empirical DG>=2 medians within about 20 %, but give DG3 medians 0.63-0.68x the empirical ones.
 - Ward scenario (assumed mix): the retrofit lowers expected DG3 buildings at the 475-yr level from 720 to 524 (urban core) and from 1274 to 770 (masonry-heavy mix). With placeholder costs the BCR is 0.74-1.41 (urban core) and 0.79-1.51 (masonry-heavy) for 12-5 % discount rates; break-even retrofit cost is 15-28 % and 16-30 % of replacement cost.
 
+## ShakeMap replay of the 2015 event (Pokhara tile)
+USGS ShakeMap for event us20002926 (`python scripts/fetch_external_data.py`).
+PGA sampled at the study-tile centre (lat 28.2214, lon 83.9867) with
+`python scripts/09_shakemap_to_region_pga.py --centroids data/external/pokhara_point.csv --out data/external/pokhara_pga.csv`
+gave 0.233 g, added as `gorkha_2015_replay` in `config/params.yaml`.
+This is a single interpolated value from a modelled field, not a validation.
+
 ## Replace before you cite any number
 Class mix / census data, unit costs, retrofit effectiveness, recovery parameters, NBC 105 Z for Pokhara, ShakeMap-based anchor, real accelerograms. See `docs/upgrade_to_real_pga.md`.
 
+## References
 - Bull, P., Slavitt, I., Lipstein, G. (2016). Harnessing the Power of the Crowd to Increase Capacity for Data Science in the Social Sector. arXiv:1606.07781. https://arxiv.org/abs/1606.07781
 - DrivenData, *Richter's Predictor: Modeling Earthquake Damage* (competition and training data derived from the 2015 Nepal Earthquake Open Data Portal; credit the original collectors as stated on the competition page).
