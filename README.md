@@ -51,3 +51,6 @@ notebooks/  results/  docs/  .vscode/
 
 ## Replace before you cite any number
 Class mix / census data, unit costs, retrofit effectiveness, recovery parameters, NBC 105 Z for Pokhara, ShakeMap-based anchor, real accelerograms. See `docs/upgrade_to_real_pga.md`.
+
+- Bull, P., Slavitt, I., Lipstein, G. (2016). Harnessing the Power of the Crowd to Increase Capacity for Data Science in the Social Sector. arXiv:1606.07781. https://arxiv.org/abs/1606.07781
+- DrivenData, *Richter's Predictor: Modeling Earthquake Damage* (competition and training data derived from the 2015 Nepal Earthquake Open Data Portal; credit the original collectors as stated on the competition page).
