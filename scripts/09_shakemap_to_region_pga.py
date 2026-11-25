@@ -14,12 +14,20 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 def read_grid(path):
     txt = pathlib.Path(path).read_text()
-    fields = {int(i): (n, u) for i, n, u in re.findall(r'<grid_field\s+index="(\d+)"\s+name="(\w+)"\s+units="(\w+)"', txt)}
-    body = re.search(r"<grid_data>(.*?)</grid_data>", txt, re.S).group(1)
-    arr = np.loadtxt(io.StringIO(body.strip()))
-    cols = {fields[i][0]: arr[:, i-1] for i in sorted(fields)}
-    pga = cols["PGA"]; unit = fields[[i for i in fields if fields[i][0] == "PGA"][0]][1]
-    pga_g = pga/100.0 if unit.lower().startswith("pct") else pga
+    # parse every <grid_field .../> tag attribute by attribute (units can be '%g', 'cm/s', ... so do not assume \w)
+    fields = {}
+    for tag in re.findall(r"<grid_field\b([^>]*)>", txt):
+        at = dict(re.findall(r'(\w+)="([^"]*)"', tag))
+        if "index" in at and "name" in at: fields[int(at["index"])] = (at["name"], at.get("units", ""))
+    if not fields: sys.exit("No <grid_field> tags found - is this really a ShakeMap grid.xml?  First 300 chars:\n" + txt[:300])
+    m = re.search(r"<grid_data>(.*?)</grid_data>", txt, re.S)
+    if not m: sys.exit("No <grid_data> block found in the file.")
+    arr = np.loadtxt(io.StringIO(m.group(1).strip()))
+    cols = {fields[i][0].upper(): arr[:, i-1] for i in sorted(fields)}
+    units = {fields[i][0].upper(): fields[i][1] for i in fields}
+    if "PGA" not in cols: sys.exit(f"No PGA field. Fields found: {[(fields[i][0], fields[i][1]) for i in sorted(fields)]}")
+    unit = units["PGA"]
+    pga_g = cols["PGA"]/100.0 if ("%" in unit or unit.lower().startswith("pct")) else cols["PGA"]     # ShakeMap stores PGA in %g
     return pd.DataFrame({"lon": cols["LON"], "lat": cols["LAT"], "pga_g": pga_g, "mmi": cols.get("MMI", np.nan)}), unit
 
 def by_polygon(grid, poly_path, id_col):

@@ -67,6 +67,7 @@ hazard:
   slope_k: 2.5                # lambda(a) = (1/475)*(a/Z)^-k  (ASSUMPTION)
   pga_grid_g: [0.05, 0.08, 0.12, 0.16, 0.20, 0.25, 0.30, 0.40, 0.50, 0.65, 0.80, 1.00]
   scenarios_g: {frequent_100yr: 0.15, design_475yr: 0.30, maximum_2475yr: 0.58}
+  scenarios_g: {frequent_100yr: 0.15, design_475yr: 0.30, maximum_2475yr: 0.58, gorkha_2015_replay: 0.233}
 
 recovery:
   # Stochastic restoration model with a limited local workforce (ASSUMPTIONS,
